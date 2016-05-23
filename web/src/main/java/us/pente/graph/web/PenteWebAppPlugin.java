@@ -12,6 +12,7 @@ public class PenteWebAppPlugin implements WebAppPlugin {
     @Override
     public void init(WebApp app, ServletContext servletContext, Handler authenticationHandler) {
         app.registerJavaScript("/us/pente/graph/web/plugin.js", true);
+        app.registerJavaScriptTemplate("/us/pente/graph/web/HelloWorld.jsx");
         app.registerResourceBundle("/us/pente/graph/web/messages.properties");
     }
 }

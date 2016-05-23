@@ -1,13 +1,20 @@
 require([
+    'flight/lib/component',
     'configuration/plugins/registry',
     'util/vertex/formatters',
-    'util/messages'
+    'util/messages',
+    'react',
+    'react-dom'
 ], function (
+    defineComponent,
     registry,
     F,
-    i18n
-) {
+    i18n,
+    React,
+    ReactDOM) {
     'use strict';
+
+    // Details pane toolbar extension to open user profile page
 
     registry.registerExtension('org.visallo.detail.toolbar', {
         title:  i18n('us.pente.graph.web.detail.toolbar.player.profile'),
@@ -37,5 +44,23 @@ require([
         var gameId = data.vertices[0].id.substring(5); // id has prefix 'GAME_'
         var url = 'https://pente.org/gameServer/viewLiveGame?mobile&g=' + gameId;
         window.open(url, '_blank');
+    });
+
+
+    // Graph view extension to test React
+
+    registry.registerExtension('org.visallo.graph.view', {
+        componentPath: 'myplugins/hello_world',
+        className: 'hello-world-example'
+    });
+
+    define('myplugins/hello_world', ['jsx!us/pente/graph/web/HelloWorld'], function(HelloWorld) {
+        return defineComponent(function() {
+            this.after('initialize', function () {
+                ReactDOM.render(
+                    React.createElement(HelloWorld, {message: 'Hi!'}),
+                    this.$node[0]);
+            });
+        });
     });
 });
